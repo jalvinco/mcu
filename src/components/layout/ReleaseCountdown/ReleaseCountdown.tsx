@@ -261,6 +261,7 @@ interface ReleaseCountdownProps {
 export default function ReleaseCountdown({ showAnimation = false }: ReleaseCountdownProps) {
   const [{ market, timeZone }] = useState(resolveMarket);
   const [now, setNow] = useState(() => Date.now());
+  const [testReachedOverride, setTestReachedOverride] = useState<boolean | null>(null);
   const countdownTarget = useMemo(
     () => getZonedDateTime(
       {
@@ -274,10 +275,12 @@ export default function ReleaseCountdown({ showAnimation = false }: ReleaseCount
     [market, timeZone],
   );
   const remainingSeconds = Math.max(0, Math.floor((countdownTarget.getTime() - now) / 1000));
-  const days = Math.floor(remainingSeconds / 86_400);
-  const hours = Math.floor((remainingSeconds % 86_400) / 3_600);
-  const minutes = Math.floor((remainingSeconds % 3_600) / 60);
-  const seconds = remainingSeconds % 60;
+  const doomsdayIsHere = testReachedOverride ?? remainingSeconds === 0;
+  const displayedSeconds = doomsdayIsHere ? 0 : remainingSeconds;
+  const days = Math.floor(displayedSeconds / 86_400);
+  const hours = Math.floor((displayedSeconds % 86_400) / 3_600);
+  const minutes = Math.floor((displayedSeconds % 3_600) / 60);
+  const seconds = displayedSeconds % 60;
 
   useEffect(() => {
     const timerId = window.setInterval(() => setNow(Date.now()), 1000);
@@ -286,7 +289,21 @@ export default function ReleaseCountdown({ showAnimation = false }: ReleaseCount
 
   return (
     <div className="release-countdown">
-      <h1 className="release-countdown__kicker"><span>Doomsday</span> is coming</h1>
+      <h1 className="release-countdown__kicker">
+        {doomsdayIsHere ? (
+          <>Doomsday is <span className="release-countdown__here">here</span></>
+        ) : (
+          <><span>Doomsday</span> is coming</>
+        )}
+      </h1>
+      <button
+        type="button"
+        className="release-countdown__test-toggle"
+        onClick={() => setTestReachedOverride((current) => !(current ?? remainingSeconds === 0))}
+        aria-label={`Test countdown state: show ${doomsdayIsHere ? 'coming' : 'here'}`}
+      >
+        TEST: SWITCH TO {doomsdayIsHere ? 'COMING' : 'HERE'}
+      </button>
       <div
         className="release-countdown__clock"
         role="timer"

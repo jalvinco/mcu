@@ -1,5 +1,6 @@
 import { lazy, Suspense, useState } from 'react';
 import BackgroundAudio from '@/components/layout/BackgroundAudio/BackgroundAudio';
+import ChatangoChat from '@/components/layout/ChatangoChat/ChatangoChat';
 import type { AppView } from '@/components/layout/ViewNavigation/ViewNavigation';
 import CaseBoardView from '@/features/detective-board/components/CaseBoardView';
 
@@ -45,6 +46,7 @@ export default function Home() {
           </footer>
         </div>
       </div>
+      <ChatangoChat />
     </div>
   );
 }
