@@ -261,7 +261,6 @@ interface ReleaseCountdownProps {
 export default function ReleaseCountdown({ showAnimation = false }: ReleaseCountdownProps) {
   const [{ market, timeZone }] = useState(resolveMarket);
   const [now, setNow] = useState(() => Date.now());
-  const [testReachedOverride, setTestReachedOverride] = useState<boolean | null>(null);
   const countdownTarget = useMemo(
     () => getZonedDateTime(
       {
@@ -284,7 +283,7 @@ export default function ReleaseCountdown({ showAnimation = false }: ReleaseCount
     [countdownTarget, timeZone],
   ).replace(/\//g, '.');
   const remainingSeconds = Math.max(0, Math.floor((countdownTarget.getTime() - now) / 1000));
-  const doomsdayIsHere = testReachedOverride ?? remainingSeconds === 0;
+  const doomsdayIsHere = remainingSeconds === 0;
   const displayedSeconds = doomsdayIsHere ? 0 : remainingSeconds;
   const days = Math.floor(displayedSeconds / 86_400);
   const hours = Math.floor((displayedSeconds % 86_400) / 3_600);
