@@ -6,7 +6,6 @@ import Header from '@/components/layout/Header/Header';
 import ReleaseCountdown from '@/components/layout/ReleaseCountdown/ReleaseCountdown';
 import ViewNavigation, { type AppView } from '@/components/layout/ViewNavigation/ViewNavigation';
 import { getLocalCharacterImage } from '@/config/characterImages';
-import { getViewerCountryCode } from '@/utils/viewerCountry';
 
 interface DoomsdayCharactersViewProps {
   onViewChange: (view: AppView) => void;
@@ -14,30 +13,18 @@ interface DoomsdayCharactersViewProps {
 
 const cardBatchSize = 12;
 
-function getViewerCountryName(): string {
-  const countryCode = getViewerCountryCode();
-  if (!countryCode) return 'Philippines';
-  if (countryCode === 'AE') return 'UAE';
-  return new Intl.DisplayNames(['en'], { type: 'region' }).of(countryCode) ?? 'Philippines';
-}
-
 export default function DoomsdayCharactersView({ onViewChange }: DoomsdayCharactersViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCinemaCountry, setSelectedCinemaCountry] = useState('');
   const [visibleCount, setVisibleCount] = useState(cardBatchSize);
   const loadMoreRef = useRef<HTMLDivElement>(null);
-  const viewerCountry = getViewerCountryName();
+  const cinemaCountries = [
+    'Philippines',
+    ...Object.keys(cinemaWebsites).filter((country) => country !== 'Philippines'),
+  ];
   const regionalCinemaLinks = Object.entries(cinemaWebsites)
-    .find(([country]) => country === viewerCountry)?.[1];
-  const cinemaLinks = viewerCountry === 'Philippines'
-    ? [
-      ['Ayala Cinemas', 'https://www.ayalaallaccess.com/'],
-      ['Sm Cinemas', 'https://www.smcinema.com/'],
-      ['Robinsons Movieworld', 'https://robinsonsmovieworld.com/'],
-      ['Megaworld Cinemas', 'https://megaworldcinemas.com/'],
-    ]
-    : regionalCinemaLinks
-      ? Object.entries(regionalCinemaLinks)
-      : [];
+    .find(([country]) => country === selectedCinemaCountry)?.[1];
+  const cinemaLinks = regionalCinemaLinks ? Object.entries(regionalCinemaLinks) : [];
   const portraitCount = characters.filter((character) => getLocalCharacterImage(character.name)).length;
   const visibleCharacters = useMemo(() => {
     const query = searchQuery.trim().toLocaleLowerCase();
@@ -109,10 +96,28 @@ export default function DoomsdayCharactersView({ onViewChange }: DoomsdayCharact
               <ChevronDown size={13} aria-hidden="true" />
             </summary>
             <div className="cinema-links__menu">
-              {cinemaLinks.length > 0 ? cinemaLinks.map(([name, url]) => (
-                <a key={name} href={url} target="_blank" rel="noreferrer">{name}</a>
-              )) : (
-                <span>No cinema listings available for {viewerCountry}.</span>
+              <label className="cinema-links__country-label" htmlFor="cinema-country">
+                SELECT COUNTRY
+              </label>
+              <select
+                className="cinema-links__country"
+                id="cinema-country"
+                value={selectedCinemaCountry}
+                onChange={(event) => setSelectedCinemaCountry(event.target.value)}
+              >
+                <option value="" disabled>Select a country</option>
+                {cinemaCountries.map((country) => (
+                  <option key={country} value={country}>{country}</option>
+                ))}
+              </select>
+              {selectedCinemaCountry ? (
+                cinemaLinks.length > 0 ? cinemaLinks.map(([name, url]) => (
+                  <a key={name} href={url} target="_blank" rel="noreferrer">{name}</a>
+                )) : (
+                  <span>No cinema listings available for {selectedCinemaCountry}.</span>
+                )
+              ) : (
+                <span>Choose a country to see cinema links.</span>
               )}
             </div>
           </details>

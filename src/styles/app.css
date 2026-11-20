@@ -2221,6 +2221,28 @@
   text-decoration: none;
 }
 
+.cinema-links__country-label {
+  padding: 8px 10px 4px;
+  color: #6b6253;
+  font: 8px var(--mono);
+  letter-spacing: .06em;
+}
+
+.cinema-links__country {
+  width: 100%;
+  padding: 8px 10px;
+  color: #34352e;
+  background: #f3eddf;
+  border: 0;
+  border-bottom: 1px solid rgba(124, 112, 90, .2);
+  font: 11px Georgia, "Times New Roman", serif;
+}
+
+.cinema-links__country:focus-visible {
+  outline: 2px solid #a64c38;
+  outline-offset: -2px;
+}
+
 .cinema-links__menu > span {
   padding: 9px 10px;
   color: #6b6253;
