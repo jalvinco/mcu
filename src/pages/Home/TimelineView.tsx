@@ -123,7 +123,7 @@ export default function TimelineView({ onViewChange }: TimelineViewProps) {
       <main className="case-workspace">
         <div className="workspace-heading">
           <div className="workspace-title">
-            <span className="eyebrow-label">TEMPORAL MONITORING <i> / </i> ACTIVE CASE</span>
+            <span className="eyebrow-label countdown-quote">All of you have lived stolen lives, but now you must give them back</span>
             <ReleaseCountdown />
           </div>
           <div className="workspace-note">

@@ -166,18 +166,19 @@ export default function DetectiveBoard({
           type: 'default',
           animated: isEmphasized,
           markerEnd: isEmphasized
-            ? { type: MarkerType.ArrowClosed, color: strokeColor, width: 18, height: 18 }
+            ? { type: MarkerType.Arrow, color: strokeColor, width: 18, height: 18 }
             : undefined,
           style: {
             stroke: strokeColor,
-            strokeDasharray: connection.category === 'theory' ? '7 5' : undefined,
-            strokeWidth: isEmphasized ? 7 : 5.5,
+            strokeDistance: isEmphasized ? 0 : 3,
+            strokeDasharray: connection.category === 'theory' ? '5 5' : 10,
+            strokeWidth: isEmphasized ? 4 : 2.5,
             opacity: selectedCharacterId === null ? 1 : isConnectedToSelection ? 1 : 0.35,
           },
           interactionWidth: 18,
           label: isEmphasized ? connection.label : undefined,
           labelStyle: { fill: '#3e3329', fontSize: 10, fontFamily: 'monospace' },
-          labelBgStyle: { fill: '#f1e5c7', fillOpacity: 0.92 },
+          labelBgStyle: { fill: '#f1e5c7', fillOpacity: 0.82 },
           labelBgPadding: [5, 3] as [number, number],
         };
       });

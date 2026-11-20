@@ -286,9 +286,7 @@ export default function ReleaseCountdown({ showAnimation = false }: ReleaseCount
 
   return (
     <div className="release-countdown">
-      <h1 className="release-countdown__kicker">
-        All of you have lived stolen lives, but now you must give them back
-      </h1>
+      <h1 className="release-countdown__kicker"><span>Doomsday</span> is coming</h1>
       <div
         className="release-countdown__clock"
         role="timer"
