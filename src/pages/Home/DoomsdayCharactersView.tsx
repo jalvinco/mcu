@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronDown, Ticket } from 'lucide-react';
 import characters from '@/store/characters.json';
+import cinemaWebsites from '@/store/cinema_websites.json';
 import Header from '@/components/layout/Header/Header';
 import ReleaseCountdown from '@/components/layout/ReleaseCountdown/ReleaseCountdown';
 import ViewNavigation, { type AppView } from '@/components/layout/ViewNavigation/ViewNavigation';
 import { getLocalCharacterImage } from '@/config/characterImages';
+import { getViewerCountryCode } from '@/utils/viewerCountry';
 
 interface DoomsdayCharactersViewProps {
   onViewChange: (view: AppView) => void;
@@ -12,10 +14,30 @@ interface DoomsdayCharactersViewProps {
 
 const cardBatchSize = 12;
 
+function getViewerCountryName(): string {
+  const countryCode = getViewerCountryCode();
+  if (!countryCode) return 'Philippines';
+  if (countryCode === 'AE') return 'UAE';
+  return new Intl.DisplayNames(['en'], { type: 'region' }).of(countryCode) ?? 'Philippines';
+}
+
 export default function DoomsdayCharactersView({ onViewChange }: DoomsdayCharactersViewProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(cardBatchSize);
   const loadMoreRef = useRef<HTMLDivElement>(null);
+  const viewerCountry = getViewerCountryName();
+  const regionalCinemaLinks = Object.entries(cinemaWebsites)
+    .find(([country]) => country === viewerCountry)?.[1];
+  const cinemaLinks = viewerCountry === 'Philippines'
+    ? [
+      ['Ayala Cinemas', 'https://www.ayalaallaccess.com/'],
+      ['Sm Cinemas', 'https://www.smcinema.com/'],
+      ['Robinsons Movieworld', 'https://robinsonsmovieworld.com/'],
+      ['Megaworld Cinemas', 'https://megaworldcinemas.com/'],
+    ]
+    : regionalCinemaLinks
+      ? Object.entries(regionalCinemaLinks)
+      : [];
   const portraitCount = characters.filter((character) => getLocalCharacterImage(character.name)).length;
   const visibleCharacters = useMemo(() => {
     const query = searchQuery.trim().toLocaleLowerCase();
@@ -87,10 +109,11 @@ export default function DoomsdayCharactersView({ onViewChange }: DoomsdayCharact
               <ChevronDown size={13} aria-hidden="true" />
             </summary>
             <div className="cinema-links__menu">
-              <a href="https://www.ayalaallaccess.com/" target="_blank" rel="noreferrer">Ayala Cinemas</a>
-              <a href="https://www.smcinema.com/" target="_blank" rel="noreferrer">Sm Cinemas</a>
-              <a href="https://robinsonsmovieworld.com/" target="_blank" rel="noreferrer">Robinsons Movieworld</a>
-              <a href="https://megaworldcinemas.com/" target="_blank" rel="noreferrer">Megaworld Cinemas</a>
+              {cinemaLinks.length > 0 ? cinemaLinks.map(([name, url]) => (
+                <a key={name} href={url} target="_blank" rel="noreferrer">{name}</a>
+              )) : (
+                <span>No cinema listings available for {viewerCountry}.</span>
+              )}
             </div>
           </details>
           <div className="filter-results">

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import idleAnimation from '@/assets/Idle-transparent.webp';
+import { getViewerCountryCode, isTimeZoneForCountry } from '@/utils/viewerCountry';
 
 interface ReleaseMarket {
   releaseDay: number;
@@ -41,174 +42,24 @@ const releaseMarkets: Record<string, ReleaseMarket> = {
   TR: { releaseDay: 18, timeZone: 'Europe/Istanbul' },
 };
 
-const exactTimeZoneMarkets: Record<string, string> = {
-  'Asia/Manila': 'PH',
-  'Europe/London': 'GB',
-  'Asia/Shanghai': 'CN',
-  'Asia/Urumqi': 'CN',
-  'Asia/Kashgar': 'CN',
-  'Asia/Seoul': 'KR',
-  'Asia/Hong_Kong': 'HK',
-  'Europe/Berlin': 'DE',
-  'Europe/Rome': 'IT',
-  'Europe/Stockholm': 'SE',
-  'Europe/Oslo': 'NO',
-  'Europe/Helsinki': 'FI',
-  'America/Sao_Paulo': 'BR',
-  'America/Bogota': 'CO',
-  'Asia/Kolkata': 'IN',
-  'Asia/Calcutta': 'IN',
-  'America/Mexico_City': 'MX',
-  'America/Argentina/Buenos_Aires': 'AR',
-  'America/Buenos_Aires': 'AR',
-  'Asia/Jerusalem': 'IL',
-  'Europe/Budapest': 'HU',
-  'Asia/Almaty': 'KZ',
-  'Asia/Aqtau': 'KZ',
-  'Asia/Aqtobe': 'KZ',
-  'Asia/Atyrau': 'KZ',
-  'Asia/Oral': 'KZ',
-  'Asia/Qostanay': 'KZ',
-  'Asia/Qyzylorda': 'KZ',
-  'America/New_York': 'US',
-  'America/Detroit': 'US',
-  'America/Indiana/Indianapolis': 'US',
-  'America/Indiana/Knox': 'US',
-  'America/Indiana/Marengo': 'US',
-  'America/Indiana/Petersburg': 'US',
-  'America/Indiana/Tell_City': 'US',
-  'America/Indiana/Vevay': 'US',
-  'America/Indiana/Vincennes': 'US',
-  'America/Indiana/Winamac': 'US',
-  'America/Indianapolis': 'US',
-  'America/Knox_IN': 'US',
-  'America/Kentucky/Louisville': 'US',
-  'America/Kentucky/Monticello': 'US',
-  'America/Louisville': 'US',
-  'America/Monticello': 'US',
-  'America/Chicago': 'US',
-  'America/Menominee': 'US',
-  'America/Denver': 'US',
-  'America/Boise': 'US',
-  'America/Phoenix': 'US',
-  'America/Los_Angeles': 'US',
-  'America/Anchorage': 'US',
-  'America/Juneau': 'US',
-  'America/Sitka': 'US',
-  'America/Metlakatla': 'US',
-  'America/Nome': 'US',
-  'America/Adak': 'US',
-  'Pacific/Honolulu': 'US',
-  'Pacific/Guam': 'US',
-  'Pacific/Saipan': 'US',
-  'America/Puerto_Rico': 'US',
-  'America/St_Thomas': 'US',
-  'America/Montreal': 'CA',
-  'America/St_Johns': 'CA',
-  'America/Halifax': 'CA',
-  'America/Glace_Bay': 'CA',
-  'America/Moncton': 'CA',
-  'America/Goose_Bay': 'CA',
-  'America/Toronto': 'CA',
-  'America/Thunder_Bay': 'CA',
-  'America/Nipigon': 'CA',
-  'America/Pangnirtung': 'CA',
-  'America/Coral_Harbour': 'CA',
-  'America/Rainy_River': 'CA',
-  'America/Winnipeg': 'CA',
-  'America/Regina': 'CA',
-  'America/Swift_Current': 'CA',
-  'America/Edmonton': 'CA',
-  'America/Cambridge_Bay': 'CA',
-  'America/Yellowknife': 'CA',
-  'America/Inuvik': 'CA',
-  'America/Dawson_Creek': 'CA',
-  'America/Fort_Nelson': 'CA',
-  'America/Whitehorse': 'CA',
-  'America/Dawson': 'CA',
-  'America/Vancouver': 'CA',
-  'America/Atikokan': 'CA',
-  'America/Rankin_Inlet': 'CA',
-  'America/Resolute': 'CA',
-  'America/Blanc-Sablon': 'CA',
-  'America/Creston': 'CA',
-  'Asia/Tokyo': 'JP',
-  'Europe/Bucharest': 'RO',
-  'Europe/Istanbul': 'TR',
-};
-
-const timeZonePrefixes: Array<[string, string]> = [
-  ['Australia/', 'AU'],
-  ['America/Argentina/', 'AR'],
-  ['America/Indiana/', 'US'],
-  ['America/Kentucky/', 'US'],
-  ['America/North_Dakota/', 'US'],
-  ['US/', 'US'],
-  ['Canada/', 'CA'],
-  ['Mexico/', 'MX'],
-  ['America/Cancun', 'MX'],
-  ['America/Matamoros', 'MX'],
-  ['America/Mazatlan', 'MX'],
-  ['America/Merida', 'MX'],
-  ['America/Monterrey', 'MX'],
-  ['America/Ojinaga', 'MX'],
-  ['America/Tijuana', 'MX'],
-  ['America/Chihuahua', 'MX'],
-  ['America/Bahia_Banderas', 'MX'],
-  ['America/Hermosillo', 'MX'],
-  ['America/Belem', 'BR'],
-  ['America/Fortaleza', 'BR'],
-  ['America/Recife', 'BR'],
-  ['America/Bahia', 'BR'],
-  ['America/Manaus', 'BR'],
-  ['America/Porto_Velho', 'BR'],
-  ['America/Boa_Vista', 'BR'],
-  ['America/Cuiaba', 'BR'],
-  ['America/Campo_Grande', 'BR'],
-  ['America/Rio_Branco', 'BR'],
-  ['America/Eirunepe', 'BR'],
-  ['America/Jacareacanga', 'BR'],
-  ['America/Porto_Acre', 'BR'],
-  ['America/Noronha', 'BR'],
-  ['America/Maceio', 'BR'],
-  ['America/Araguaina', 'BR'],
-  ['America/Santarem', 'BR'],
-];
-
 const fallbackMarket: ReleaseMarket = {
   releaseDay: 18,
   timeZone: 'UTC',
 };
 
-function countryFromLocale(): string | undefined {
-  const locales = navigator.languages?.length ? navigator.languages : [navigator.language];
-
-  for (const locale of locales) {
-    const region = locale
-      .split('-')
-      .slice(1)
-      .find((part) => /^[A-Za-z]{2}$/.test(part))
-      ?.toUpperCase();
-    if (region && releaseMarkets[region]) return region;
-  }
-}
-
 function resolveMarket(): { market: ReleaseMarket; timeZone: string } {
   const browserTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
-  const countryCode = exactTimeZoneMarkets[browserTimeZone]
-    ?? timeZonePrefixes.find(([prefix]) => browserTimeZone.startsWith(prefix))?.[1]
-    ?? countryFromLocale();
+  const countryCode = getViewerCountryCode();
+  const market = countryCode ? releaseMarkets[countryCode] : undefined;
 
-  if (!countryCode) {
+  if (!countryCode || !market) {
     return {
       market: fallbackMarket,
       timeZone: browserTimeZone,
     };
   }
 
-  const market = releaseMarkets[countryCode];
-  const matchedTimeZone = exactTimeZoneMarkets[browserTimeZone] === countryCode
-    || timeZonePrefixes.some(([prefix, code]) => code === countryCode && browserTimeZone.startsWith(prefix));
+  const matchedTimeZone = isTimeZoneForCountry(browserTimeZone, countryCode);
 
   return {
     market,

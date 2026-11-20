@@ -1,0 +1,71 @@
+{
+  "Philippines": {
+    "SM Cinema": "https://www.smcinema.com",
+    "Ayala Malls Cinemas": "https://sureseats.com",
+    "Robinsons Movieworld": "https://robinsonsmovieworld.com",
+    "Megaworld Cinemas": "https://megaworldcinemas.com/"
+  },
+  "Japan": {
+    "Toho Cinemas": "https://www.tohocinemas.co.jp",
+    "Aeon Cinema": "https://www.aeoncinema.com",
+    "109 Cinemas": "https://109cinemas.net"
+  },
+  "South Korea": {
+    "CJ CGV": "http://www.cgv.co.kr",
+    "Lotte Cinema": "https://www.lottecinema.co.kr",
+    "Megabox": "https://www.megabox.co.kr"
+  },
+  "India": {
+    "BookMyShow": "https://in.bookmyshow.com/explore/movies",
+    "PVR INOX": "https://www.pvrinox.com"
+  },
+  "China": {
+    "Maoyan": "https://www.maoyan.com",
+    "Taopiaopiao": "https://www.taopiaopiao.com"
+  },
+  "Australia": {
+    "Event Cinemas": "https://www.eventcinemas.com.au/",
+    "HOYTS": "https://www.hoyts.com.au/",
+    "Village Cinemas": "https://villagecinemas.com.au/"
+  },
+  "United States": {
+    "Fandango": "https://www.fandango.com/",
+    "AMC Theatres": "https://www.amctheatres.com",
+    "Regal Cinemas": "https://www.regmovies.com",
+    "Cinemark": "https://www.cinemark.com",
+    "Atom Tickets": "https://www.atomtickets.com"
+  },
+  "Canada": {
+    "Cineplex": "https://www.cineplex.com",
+    "Landmark Cinemas": "https://www.landmarkcinemas.com"
+  },
+  "Mexico": {
+    "Cinépolis": "https://www.cinepolis.com/",
+    "Cinemex": "https://www.cinemex.com/"
+  },
+  "Brazil": {
+    "Ingresso.com": "https://www.ingresso.com/",
+    "Cinemark Brasil": "https://www.cinemark.com.br/"
+  },
+  "United Kingdom": {
+    "Odeon Cinemas": "https://www.odeon.co.uk",
+    "Cineworld": "https://www.cineworld.co.uk",
+    "Vue Cinemas": "https://www.myvue.com"
+  },
+  "France": {
+    "Pathé": "https://www.pathe.fr",
+    "UGC": "https://www.ugc.fr"
+  },
+  "Germany": {
+    "Cineplex Deutschland": "https://www.cineplex.de",
+    "UCI Luxe / Kinowelt": "https://www.uci-kinowelt.de"
+  },
+  "Spain": {
+    "Cinesa": "https://www.cinesa.es/",
+    "Yelmo Cines": "https://www.yelmocines.es/"
+  },
+  "UAE": {
+    "VOX Cinemas": "https://uae.voxcinemas.com/",
+    "Roxy Cinemas": "https://www.theroxycinemas.com/"
+  }
+}

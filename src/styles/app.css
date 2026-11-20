@@ -2221,6 +2221,12 @@
   text-decoration: none;
 }
 
+.cinema-links__menu > span {
+  padding: 9px 10px;
+  color: #6b6253;
+  font: 11px Georgia, "Times New Roman", serif;
+}
+
 .cinema-links__menu a:last-child {
   border-bottom: 0;
 }
