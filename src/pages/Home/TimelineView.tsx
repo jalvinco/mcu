@@ -6,6 +6,7 @@ import ViewNavigation, { type AppView } from '@/components/layout/ViewNavigation
 import TimelineDetails from '@/features/detective-board/components/TimelineDetails';
 import ResponsiveDetailsModal from '@/features/detective-board/components/ResponsiveDetailsModal';
 import { useTimelineData } from '@/features/detective-board/hooks/useTimelineData';
+import useBackButtonClose from '@/features/detective-board/hooks/useBackButtonClose';
 import type { MCUTimelineEntry } from '@/types/mcu.types';
 
 type TitleTypeFilter = 'all' | 'movie' | 'tvshow';
@@ -105,6 +106,7 @@ export default function TimelineView({ onViewChange }: TimelineViewProps) {
     setSelectedEntry(null);
     setSelectedEntryContinuity(undefined);
   };
+  const closeTimelineDetail = useBackButtonClose(Boolean(selectedEntry), closeTimelineEntry);
   const hasFilters = searchQuery || selectedContinuity !== 'all' || titleType !== 'all';
 
   return (
@@ -251,7 +253,7 @@ export default function TimelineView({ onViewChange }: TimelineViewProps) {
             <ResponsiveDetailsModal
               open={Boolean(selectedEntry)}
               label="Timeline record"
-              onClose={closeTimelineEntry}
+              onClose={closeTimelineDetail}
             >
               <TimelineDetails
                 entry={selectedEntry}
@@ -259,7 +261,7 @@ export default function TimelineView({ onViewChange }: TimelineViewProps) {
                 isLoading={isDetailLoading}
                 error={detailError}
                 groupName={selectedEntryContinuity}
-                onClose={closeTimelineEntry}
+                onClose={closeTimelineDetail}
               />
             </ResponsiveDetailsModal>
           </div>

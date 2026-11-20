@@ -7,6 +7,7 @@ import DetectiveBoard from './DetectiveBoard';
 import IncursionDossier from './IncursionDossier';
 import ResponsiveDetailsModal from './ResponsiveDetailsModal';
 import { useIncursionBoard } from '../hooks/useIncursionBoard';
+import useBackButtonClose from '../hooks/useBackButtonClose';
 import { incursionCaseConnections } from '../data/incursionCases';
 import type { IncursionEvidenceCategory } from '@/types/board.types';
 
@@ -65,6 +66,17 @@ export default function CaseBoardView({ onViewChange }: CaseBoardViewProps) {
   );
   const selectedSubject =
     visibleSubjects.find((subject) => subject.character.id === selectedCharacterId) ?? null;
+  const closeSelectedCharacter = useBackButtonClose(
+    Boolean(selectedSubject),
+    () => setSelectedCharacterId(null),
+  );
+  const handleSelectCharacter = (characterId: number | null) => {
+    if (characterId === null) {
+      closeSelectedCharacter();
+      return;
+    }
+    setSelectedCharacterId(characterId);
+  };
   const connectedCount = visibleConnections.length;
 
   return (
@@ -132,7 +144,7 @@ export default function CaseBoardView({ onViewChange }: CaseBoardViewProps) {
               onClick={() => {
                 setSearchQuery('');
                 setEvidenceFilter('all');
-                setSelectedCharacterId(null);
+                closeSelectedCharacter();
               }}
             >
               <RotateCcw size={12} /> RESET VIEW
@@ -187,7 +199,7 @@ export default function CaseBoardView({ onViewChange }: CaseBoardViewProps) {
                 connections={visibleConnections}
                 selectedCharacterId={selectedCharacterId}
                 compactGroups={evidenceFilter === 'all'}
-                onSelectCharacter={setSelectedCharacterId}
+                onSelectCharacter={handleSelectCharacter}
               />
               <div className="board-legend">
                 <span><i className="legend-thread" /> ON-SCREEN RECORD</span>
@@ -198,12 +210,12 @@ export default function CaseBoardView({ onViewChange }: CaseBoardViewProps) {
             <ResponsiveDetailsModal
               open={Boolean(selectedSubject)}
               label="Subject dossier"
-              onClose={() => setSelectedCharacterId(null)}
+              onClose={closeSelectedCharacter}
             >
               <IncursionDossier
                 key={selectedSubject?.character.id ?? 'empty'}
                 subject={selectedSubject}
-                onClose={() => setSelectedCharacterId(null)}
+                onClose={closeSelectedCharacter}
               />
             </ResponsiveDetailsModal>
           </div>

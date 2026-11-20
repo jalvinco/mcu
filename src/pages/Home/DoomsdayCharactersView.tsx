@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { ChevronDown, Ticket } from 'lucide-react';
 import characters from '@/store/characters.json';
 import Header from '@/components/layout/Header/Header';
 import ReleaseCountdown from '@/components/layout/ReleaseCountdown/ReleaseCountdown';
@@ -79,6 +80,19 @@ export default function DoomsdayCharactersView({ onViewChange }: DoomsdayCharact
             <span className="timeline-toolbar__marker" aria-hidden="true" />
             <span>DOOMSDAY CHARACTER FILES</span>
           </div>
+          <details className="cinema-links">
+            <summary className="cinema-links__trigger">
+              <Ticket size={13} aria-hidden="true" />
+              <span>FIND A CINEMA</span>
+              <ChevronDown size={13} aria-hidden="true" />
+            </summary>
+            <div className="cinema-links__menu">
+              <a href="https://www.ayalaallaccess.com/" target="_blank" rel="noreferrer">Ayala Cinemas</a>
+              <a href="https://www.smcinema.com/" target="_blank" rel="noreferrer">Sm Cinemas</a>
+              <a href="https://robinsonsmovieworld.com/" target="_blank" rel="noreferrer">Robinsons Movieworld</a>
+              <a href="https://megaworldcinemas.com/" target="_blank" rel="noreferrer">Megaworld Cinemas</a>
+            </div>
+          </details>
           <div className="filter-results">
             <b>{loadedCharacters.length}</b> OF {visibleCharacters.length} FILES LOADED
           </div>

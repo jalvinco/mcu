@@ -2143,7 +2143,73 @@
 }
 
 .doomsday-roster-toolbar {
+  position: relative;
+  z-index: 10;
   border-bottom: 1px solid rgba(210, 201, 178, .26);
+}
+
+.cinema-links {
+  position: relative;
+}
+
+.cinema-links__trigger {
+  min-height: 31px;
+  padding: 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #e4dcc9;
+  background: rgba(15, 23, 19, .5);
+  border: 1px solid rgba(227, 222, 204, .28);
+  font: 8px var(--mono);
+  letter-spacing: .06em;
+  list-style: none;
+  cursor: pointer;
+}
+
+.cinema-links__trigger::-webkit-details-marker {
+  display: none;
+}
+
+.cinema-links__trigger:hover,
+.cinema-links[open] .cinema-links__trigger {
+  color: #fff4dc;
+  border-color: #b97856;
+}
+
+.cinema-links__trigger svg:first-child {
+  color: #d7ad79;
+}
+
+.cinema-links__menu {
+  position: absolute;
+  top: calc(100% + 5px);
+  left: 0;
+  z-index: 15000;
+  min-width: 220px;
+  padding: 4px;
+  display: grid;
+  background: #f3eddf;
+  border: 1px solid #c9bda8;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .35);
+}
+
+.cinema-links__menu a {
+  padding: 9px 10px;
+  color: #34352e;
+  border-bottom: 1px solid rgba(124, 112, 90, .15);
+  font: 11px Georgia, "Times New Roman", serif;
+  text-decoration: none;
+}
+
+.cinema-links__menu a:last-child {
+  border-bottom: 0;
+}
+
+.cinema-links__menu a:hover,
+.cinema-links__menu a:focus-visible {
+  color: #a64c38;
+  background: rgba(177, 90, 66, .08);
 }
 
 .doomsday-character-grid {
