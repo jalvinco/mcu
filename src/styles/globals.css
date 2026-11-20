@@ -1,0 +1,63 @@
+@import '@xyflow/react/dist/style.css';
+
+@font-face {
+  font-family: "Stay With Me";
+  src: url("../assets/fonts/Stay With Me.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #252a25;
+  background: #e9e1d1;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+
+  --ink: #252a25;
+  --ink-soft: #55574e;
+  --paper: #f3eddf;
+  --paper-deep: #e9e1d1;
+  --line: #d3c8b3;
+  --red: #b94f39;
+  --green: #31443b;
+  --muted: #827a6a;
+  --mono: "Cascadia Code", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 360px;
+  min-height: 100vh;
+  margin: 0;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid #ba6147;
+  outline-offset: 3px;
+}
+
+::selection {
+  color: #fffaf0;
+  background: #a64b37;
+}
