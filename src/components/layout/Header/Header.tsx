@@ -1,4 +1,5 @@
 import { RefreshCw, Search, Shield } from 'lucide-react';
+import BackgroundAudio from '@/components/layout/BackgroundAudio/BackgroundAudio';
 
 type HeaderView = 'board' | 'timeline' | 'characters';
 
@@ -66,9 +67,8 @@ export default function Header({
         <kbd>⌘ K</kbd>
       </label>
 
-      <div className="header-status" aria-live="polite">
-        <span className={`status-dot${isLoading ? ' status-dot--busy' : ''}`} />
-        <span>{isLoading ? 'SYNCING' : view === 'characters' ? 'LOCAL FILES' : 'LIVE DATA'}</span>
+      <div className="header-audio" aria-label="Clock sound controls">
+        <BackgroundAudio />
       </div>
       <div className="header-counts" aria-label="View totals">
         <span><b>{titleCount}</b> {view === 'board' ? 'SUBJECTS' : view === 'timeline' ? 'TITLES' : 'CHARACTERS'}</span>

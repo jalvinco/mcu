@@ -1,5 +1,4 @@
 import { lazy, Suspense, useState } from 'react';
-import BackgroundAudio from '@/components/layout/BackgroundAudio/BackgroundAudio';
 import ChatangoChat from '@/components/layout/ChatangoChat/ChatangoChat';
 import type { AppView } from '@/components/layout/ViewNavigation/ViewNavigation';
 import CaseBoardView from '@/features/detective-board/components/CaseBoardView';
@@ -41,7 +40,6 @@ export default function Home() {
           )}
           <footer className="app-footer">
             <span>© TVA TEMPORAL ARCHIVES <i>·</i> MULTIVERSE RECORDS</span>
-            <BackgroundAudio />
             <span>ARCHIVE SOURCE <a href="https://github.com/augustomarcelo/mcuapi" target="_blank" rel="noreferrer">TEMPORAL RECORDS <span aria-hidden="true">↗</span></a></span>
           </footer>
         </div>
