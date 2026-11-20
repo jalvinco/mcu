@@ -4,6 +4,7 @@ import Header from '@/components/layout/Header/Header';
 import ReleaseCountdown from '@/components/layout/ReleaseCountdown/ReleaseCountdown';
 import ViewNavigation, { type AppView } from '@/components/layout/ViewNavigation/ViewNavigation';
 import TimelineDetails from '@/features/detective-board/components/TimelineDetails';
+import ResponsiveDetailsModal from '@/features/detective-board/components/ResponsiveDetailsModal';
 import { useTimelineData } from '@/features/detective-board/hooks/useTimelineData';
 import type { MCUTimelineEntry } from '@/types/mcu.types';
 
@@ -247,14 +248,20 @@ export default function TimelineView({ onViewChange }: TimelineViewProps) {
                 <span className="board-legend__zoom">LANES REPRESENT DISTINCT CONTINUITIES</span>
               </div>
             </section>
-            <TimelineDetails
-              entry={selectedEntry}
-              details={selectedDetails}
-              isLoading={isDetailLoading}
-              error={detailError}
-              groupName={selectedEntryContinuity}
+            <ResponsiveDetailsModal
+              open={Boolean(selectedEntry)}
+              label="Timeline record"
               onClose={closeTimelineEntry}
-            />
+            >
+              <TimelineDetails
+                entry={selectedEntry}
+                details={selectedDetails}
+                isLoading={isDetailLoading}
+                error={detailError}
+                groupName={selectedEntryContinuity}
+                onClose={closeTimelineEntry}
+              />
+            </ResponsiveDetailsModal>
           </div>
         )}
       </main>

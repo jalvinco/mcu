@@ -239,13 +239,16 @@ export default function DetectiveBoard({
           edges={edges}
           nodeTypes={nodeTypes}
           fitView
-          fitViewOptions={{ padding: 0.03, minZoom: 1.2, maxZoom: 1.35 }}
+          fitViewOptions={{ padding: 0.08, minZoom: 0.6, maxZoom: 1.35 }}
           minZoom={0.18}
           maxZoom={1.45}
           nodesDraggable
           nodesConnectable={false}
           elementsSelectable
+          panOnDrag
           panOnScroll
+          zoomOnPinch
+          preventScrolling
           onMoveEnd={handleMoveEnd}
           onNodeClick={(_, node) => onSelectCharacter(node.data.character.id)}
           onPaneClick={() => onSelectCharacter(null)}

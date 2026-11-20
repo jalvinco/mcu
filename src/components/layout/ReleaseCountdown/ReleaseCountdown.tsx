@@ -274,6 +274,15 @@ export default function ReleaseCountdown({ showAnimation = false }: ReleaseCount
     ),
     [market, timeZone],
   );
+  const formattedTargetDate = useMemo(
+    () => new Intl.DateTimeFormat('en-US', {
+      timeZone,
+      month: '2-digit',
+      day: '2-digit',
+      year: '2-digit',
+    }).format(countdownTarget),
+    [countdownTarget, timeZone],
+  ).replace(/\//g, '.');
   const remainingSeconds = Math.max(0, Math.floor((countdownTarget.getTime() - now) / 1000));
   const doomsdayIsHere = testReachedOverride ?? remainingSeconds === 0;
   const displayedSeconds = doomsdayIsHere ? 0 : remainingSeconds;
@@ -291,19 +300,19 @@ export default function ReleaseCountdown({ showAnimation = false }: ReleaseCount
     <div className="release-countdown">
       <h1 className="release-countdown__kicker">
         {doomsdayIsHere ? (
-          <>Doomsday is <span className="release-countdown__here">here</span></>
+          <>DOOMSDAY IS <span className="release-countdown__here">HERE</span></>
         ) : (
-          <><span>Doomsday</span> is coming</>
+          <>{formattedTargetDate}  &nbsp; IS   &nbsp; <span> DOOMSDAY</span></>
         )}
       </h1>
-      <button
+      {/* <button
         type="button"
         className="release-countdown__test-toggle"
         onClick={() => setTestReachedOverride((current) => !(current ?? remainingSeconds === 0))}
         aria-label={`Test countdown state: show ${doomsdayIsHere ? 'coming' : 'here'}`}
       >
         TEST: SWITCH TO {doomsdayIsHere ? 'COMING' : 'HERE'}
-      </button>
+      </button> */}
       <div
         className="release-countdown__clock"
         role="timer"

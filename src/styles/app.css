@@ -288,13 +288,13 @@
 
 .release-countdown__kicker {
   margin: 0;
-  color: #f1eadb;
-  font: 500 clamp(31px, 3.2vw, 46px)/.98 Georgia, "Times New Roman", serif;
+  color: #dce9d2;
+  font: 800 clamp(31px, 3.2vw, 46px)/.98 "Bebas Neue", sans-serif;
   letter-spacing: -.045em;
 }
 
 .release-countdown__kicker span {
-  color: #1c7f01;
+  color: #155c02;
   drop-shadow: 0 1px 2px rgba(104, 241, 66, 0.48);
   font-weight: 400;
 }
@@ -334,8 +334,8 @@
   display: flex;
   align-items: flex-start;
   gap: clamp(6px, 1vw, 12px);
-  color: #fff;
-  font-family: var(--mono);
+  color: #d0d0d0;
+  font-family: "Bebas Neue", sans-serif;
   font-variant-numeric: tabular-nums;
 }
 
@@ -349,7 +349,7 @@
 }
 
 .release-countdown__unit {
-  min-width: 39px;
+  min-width: 44px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -358,19 +358,19 @@
 
 .release-countdown__unit b {
   color: #fff;
-  font: 500 clamp(18px, 2vw, 25px)/1 var(--mono);
+  font: 400 clamp(23px, 2.4vw, 32px)/1 "Bebas Neue", sans-serif;
 }
 
 .release-countdown__unit small {
   color: rgba(255, 255, 255, .78);
-  font: 7px/1.2 var(--mono);
+  font: 400 10px/1.2 "Bebas Neue", sans-serif;
   letter-spacing: .12em;
 }
 
 .release-countdown__separator {
   padding-top: 1px;
   color: rgba(255, 255, 255, .72);
-  font: 16px/1 var(--mono);
+  font: 400 20px/1 "Bebas Neue", sans-serif;
 }
 
 .mobile-break {
@@ -637,7 +637,8 @@
 }
 
 .board-canvas .react-flow {
-  position: relative;
+  position: absolute !important;
+  inset: 0;
   z-index: 1;
   background: transparent;
 }
@@ -931,6 +932,10 @@
     #f3eddf;
   scrollbar-color: #b8a98d transparent;
   scrollbar-width: thin;
+}
+
+.responsive-details-modal {
+  display: contents;
 }
 
 .details-panel--empty {
@@ -1378,6 +1383,10 @@
   height: 300px;
 }
 
+.chatango-widget__toggle {
+  display: none;
+}
+
 .ambient-audio {
   display: inline-flex;
   align-items: center;
@@ -1605,6 +1614,36 @@
     flex-direction: column;
   }
 
+  .responsive-details-modal:not(.responsive-details-modal--open) {
+    display: none;
+  }
+
+  .responsive-details-modal--open {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgba(13, 17, 15, .76);
+    backdrop-filter: blur(3px);
+  }
+
+  .responsive-details-modal--open .details-panel {
+    width: min(100%, 460px);
+    max-height: calc(100dvh - 24px);
+    flex: 0 0 auto;
+    border: 1px solid #c9bda8;
+    box-shadow: 0 18px 56px rgba(0, 0, 0, .48);
+  }
+
+  .responsive-details-modal--open .timeline-details {
+    max-height: calc(100dvh - 24px);
+  }
+
   .board-section {
     min-height: 550px;
     border-right: 0;
@@ -1614,6 +1653,20 @@
 
   .board-canvas {
     min-height: 470px;
+  }
+
+  .board-canvas .react-flow__pane {
+    touch-action: none;
+  }
+
+  .board-canvas .react-flow__controls {
+    top: 10px;
+    left: 10px;
+  }
+
+  .board-canvas .react-flow__controls-button {
+    width: 36px;
+    height: 36px;
   }
 
   .details-panel {
@@ -1656,9 +1709,60 @@
     width: min(200px, calc(100vw - 20px));
     height: min(300px, calc(100vh - 100px));
   }
+
+  .chatango-widget:not(.chatango-widget--open) {
+    width: auto;
+    height: auto;
+    overflow: visible;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .chatango-widget:not(.chatango-widget--open) > iframe,
+  .chatango-widget:not(.chatango-widget--open) > script {
+    display: none;
+  }
+
+  .chatango-widget__toggle {
+    position: absolute;
+    top: -38px;
+    right: 0;
+    min-height: 32px;
+    padding: 0 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #f3eddf;
+    background: #283730;
+    border: 1px solid rgba(227, 179, 122, .58);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .28);
+    font: 8px var(--mono);
+    letter-spacing: .06em;
+    cursor: pointer;
+  }
+
+  .chatango-widget:not(.chatango-widget--open) .chatango-widget__toggle {
+    position: static;
+    min-height: 36px;
+  }
+
+  .chatango-widget--open {
+    overflow: visible;
+  }
 }
 
 @media (max-width: 480px) {
+  .responsive-details-modal--open {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .responsive-details-modal--open .details-panel {
+    max-height: calc(100dvh - 16px);
+  }
+
   .chatango-widget {
     width: min(200px, calc(100vw - 72px));
     height: min(300px, calc(100vh - 100px));

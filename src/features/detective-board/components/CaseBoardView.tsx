@@ -5,6 +5,7 @@ import ReleaseCountdown from '@/components/layout/ReleaseCountdown/ReleaseCountd
 import ViewNavigation, { type AppView } from '@/components/layout/ViewNavigation/ViewNavigation';
 import DetectiveBoard from './DetectiveBoard';
 import IncursionDossier from './IncursionDossier';
+import ResponsiveDetailsModal from './ResponsiveDetailsModal';
 import { useIncursionBoard } from '../hooks/useIncursionBoard';
 import { incursionCaseConnections } from '../data/incursionCases';
 import type { IncursionEvidenceCategory } from '@/types/board.types';
@@ -194,11 +195,17 @@ export default function CaseBoardView({ onViewChange }: CaseBoardViewProps) {
                 <span className="board-legend__zoom">DRAG TO ARRANGE <i>·</i> SCROLL TO PAN</span>
               </div>
             </section>
-            <IncursionDossier
-              key={selectedSubject?.character.id ?? 'empty'}
-              subject={selectedSubject}
+            <ResponsiveDetailsModal
+              open={Boolean(selectedSubject)}
+              label="Subject dossier"
               onClose={() => setSelectedCharacterId(null)}
-            />
+            >
+              <IncursionDossier
+                key={selectedSubject?.character.id ?? 'empty'}
+                subject={selectedSubject}
+                onClose={() => setSelectedCharacterId(null)}
+              />
+            </ResponsiveDetailsModal>
           </div>
         )}
       </main>

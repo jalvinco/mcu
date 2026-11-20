@@ -1,9 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { MessageCircle, X } from 'lucide-react';
 
 const embedId = 'cid0020000456151030891';
 
 export default function ChatangoChat() {
   const containerRef = useRef<HTMLElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -43,5 +45,21 @@ export default function ChatangoChat() {
     container.append(script);
   }, []);
 
-  return <aside className="chatango-widget" aria-label="Chatango community chat" ref={containerRef} />;
+  return (
+    <aside
+      className={`chatango-widget${isOpen ? ' chatango-widget--open' : ''}`}
+      aria-label="Chatango community chat"
+      ref={containerRef}
+    >
+      <button
+        type="button"
+        className="chatango-widget__toggle"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        {isOpen ? <X size={14} /> : <MessageCircle size={14} />}
+        <span>{isOpen ? 'CLOSE CHAT' : 'OPEN CHAT'}</span>
+      </button>
+    </aside>
+  );
 }
